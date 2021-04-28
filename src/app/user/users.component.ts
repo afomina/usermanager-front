@@ -3,7 +3,6 @@ import { FormGroup, FormControl } from '@angular/forms';
 
 import { User } from './user';
 import { UserService } from './user.service';
-import {Observable, Subscriber} from "rxjs";
 import {FileService} from "./file.service";
 
 @Component({

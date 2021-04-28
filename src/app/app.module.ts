@@ -5,15 +5,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { HttpClientXsrfModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
-import { AuthService } from './auth.service';
-import { ConfigComponent } from './config/config.component';
 import { UsersComponent } from './user/users.component';
-import { HttpErrorHandler } from './http-error-handler.service';
-import { MessageService } from './message.service';
-import { MessagesComponent } from './messages/messages.component';
 import { AppRoutingModule } from './app-routing.module';
 
-import { httpInterceptorProviders } from './http-interceptors/index';
 import {EditUserComponent} from "./edit/edit-user.component";
 
 @NgModule({
@@ -31,16 +25,10 @@ import {EditUserComponent} from "./edit/edit-user.component";
   ],
   declarations: [
     AppComponent,
-    ConfigComponent,
     UsersComponent,
     EditUserComponent,
-    MessagesComponent,
   ],
   providers: [
-    AuthService,
-    HttpErrorHandler,
-    MessageService,
-    httpInterceptorProviders
   ],
   bootstrap: [ AppComponent ]
 })
