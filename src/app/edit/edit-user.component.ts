@@ -22,9 +22,9 @@ export class EditUserComponent implements OnInit {
     role: new FormControl(),
     avatar: new FormControl()
   });
-  imageBase64: string;
-  uploadedImage: SafeUrl;
-  userAvatar: SafeUrl;
+  uploadedImageBase64: string;
+  uploadedImageUrl: SafeUrl;
+  userAvatarUrl: SafeUrl;
 
   constructor(private userService: UserService,
               private fileService: FileService,
@@ -38,21 +38,26 @@ export class EditUserComponent implements OnInit {
           r => {
             this.user = r.data.user;
             if (this.user.avatar != null) {
-              this.userAvatar = this.domSanitizer.bypassSecurityTrustUrl(
+              this.userAvatarUrl = this.domSanitizer.bypassSecurityTrustUrl(
                 "data:image/png;base64, " + this.user.avatar);
             }
           });
   }
 
-  edit(user: User) {
-    user.avatar = this.imageBase64;
-    user.password = btoa(user.password);
-    this.userService.updateUser(this.user.id, user).subscribe();
+  editUser(userData: User) {
+    if (this.uploadedImageBase64 == null) {
+      userData.avatar = this.user.avatar
+    } else {
+      userData.avatar = this.uploadedImageBase64;
+    }
+    if (userData.password != null) {
+      userData.password = btoa(userData.password);
+    }
+    this.userService.updateUser(this.user.id, userData).subscribe();
   }
 
   update() {
-    console.warn(this.editUserForm.value);
-    this.edit(this.editUserForm.value);
+    this.editUser(this.editUserForm.value);
   }
 
   onPicked(input: HTMLInputElement) {
@@ -60,9 +65,8 @@ export class EditUserComponent implements OnInit {
 
     if (file) {
       this.fileService.base64(file).subscribe(result => {
-        this.imageBase64 = result;
-        this.uploadedImage = this.domSanitizer.bypassSecurityTrustUrl('data:image/png;base64, ' + this.imageBase64);
-        console.warn(this.uploadedImage);
+        this.uploadedImageBase64 = result;
+        this.uploadedImageUrl = this.domSanitizer.bypassSecurityTrustUrl('data:image/png;base64, ' + this.uploadedImageBase64);
       });
     }
   }
