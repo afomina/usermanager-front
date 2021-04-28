@@ -1,0 +1,35 @@
+<h3>Edit</h3>
+<div >
+  <form [formGroup]="editUserForm" (ngSubmit)="update()">
+    <label>First name:
+      <input type="text" formControlName="firstName" [(ngModel)]="user.firstName"/>
+    </label>
+    <label>Last name:
+      <input type="text" formControlName="lastName" [(ngModel)]="user.lastName"/>
+    </label><br>
+    <label>Email:
+      <input type="email" formControlName="email" [(ngModel)]="user.email"/>
+    </label>
+    <label>Password:
+      <input type="password" formControlName="password" />
+    </label><br>
+    <label>Role:
+      <select formControlName="role" [(ngModel)]="user.role">
+        <option value="user">user</option>
+        <option value="admin">admin</option>
+      </select>
+    </label>
+    <div>
+      <label for="picked">Avatar:</label>
+      <div>
+        <input type="file" id="picked" formControlName="avatar" #picked
+               (change)="onPicked(picked)"/>
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="!editUserForm.valid">
+      save
+    </button>
+  </form>
+
+</div>

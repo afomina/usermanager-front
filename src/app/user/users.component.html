@@ -1,0 +1,75 @@
+<h3>Users</h3>
+<div>
+  <form [formGroup]="createUser" (ngSubmit)="onCreate()">
+    <label>First name:
+      <input type="text" formControlName="firstName"/>
+    </label>
+    <label>Last name:
+      <input type="text" formControlName="lastName"/>
+    </label><br>
+    <label>Email:
+      <input type="email" formControlName="email"/>
+    </label>
+    <label>Password:
+      <input type="password" formControlName="password"/>
+    </label><br>
+    <label>Role:
+      <select formControlName="role">
+        <option value="user">user</option>
+        <option value="admin">admin</option>
+      </select>
+    </label>
+    <div>
+      <label for="picked">Avatar:</label>
+      <div>
+        <input type="file" id="picked" formControlName="avatar" #picked
+               (change)="onPicked(picked)"/>
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="!createUser.valid">
+      add
+    </button>
+  </form>
+
+</div>
+
+<table border="true">
+  <thead>
+  <th>Id</th>
+  <th>First name</th>
+  <th>Last name</th>
+  <th>email</th>
+  <th>Role</th>
+  </thead>
+  <tr *ngFor="let user of users">
+    <td>
+      <span class="badge">
+        <a [routerLink]="['/user', user.id]" routerLinkActive="active">{{ user.id}}</a>
+      </span>
+    </td>
+    <td>
+      <span>{{user.firstName}}</span>
+    </td>
+
+    <td>
+      <span>{{user.lastName}}</span>
+    </td>
+
+    <td>
+      <span>{{user.email}}</span>
+    </td>
+
+    <td>
+      <span>{{user.role}}</span>
+    </td>
+
+    <td>
+      <button title="delete user"
+              (click)="delete(user)">x
+      </button>
+    </td>
+  </tr>
+</table>
+
+<!--<router-outlet></router-outlet>-->
