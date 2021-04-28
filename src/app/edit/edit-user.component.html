@@ -1,7 +1,7 @@
 <h3>Edit</h3>
 <div >
   <form [formGroup]="editUserForm" (ngSubmit)="update()">
-    <img [src]="userAvatar" width="100px" /><br>
+    <img *ngIf="userAvatar" [src]="userAvatar" width="100px" /><br>
     <label>First name:
       <input type="text" formControlName="firstName" [(ngModel)]="user.firstName"/>
     </label>

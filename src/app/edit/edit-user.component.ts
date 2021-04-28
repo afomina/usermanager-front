@@ -37,7 +37,10 @@ export class EditUserComponent implements OnInit {
       this.userService.getUser(params.get('id')))).subscribe(
           r => {
             this.user = r.data.user;
-            this.userAvatar = this.domSanitizer.bypassSecurityTrustUrl("data:image/png;base64, " + this.user.avatar);
+            if (this.user.avatar != null) {
+              this.userAvatar = this.domSanitizer.bypassSecurityTrustUrl(
+                "data:image/png;base64, " + this.user.avatar);
+            }
           });
   }
 
