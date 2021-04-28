@@ -1,10 +1,10 @@
 import {Component, OnInit} from "@angular/core";
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import {FormControl, FormGroup} from "@angular/forms";
+import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
 import {UserService} from "../user/user.service";
 import {User} from "../user/user";
 import {FileService} from "../user/file.service";
-import {Observable} from "rxjs";
 import {switchMap} from "rxjs/operators";
 
 @Component({
@@ -23,16 +23,22 @@ export class EditUserComponent implements OnInit {
     avatar: new FormControl()
   });
   imageBase64: string;
+  uploadedImage: SafeUrl;
+  userAvatar: SafeUrl;
 
   constructor(private userService: UserService,
               private fileService: FileService,
-              private route: ActivatedRoute) {}
+              private route: ActivatedRoute,
+              private domSanitizer: DomSanitizer) {}
 
   ngOnInit(): void {
     this.route.paramMap.pipe(
       switchMap((params: ParamMap) =>
       this.userService.getUser(params.get('id')))).subscribe(
-          r => (this.user = r.data.user));
+          r => {
+            this.user = r.data.user;
+            this.userAvatar = this.domSanitizer.bypassSecurityTrustUrl("data:image/png;base64, " + this.user.avatar);
+          });
   }
 
   edit(user: User) {
@@ -52,7 +58,8 @@ export class EditUserComponent implements OnInit {
     if (file) {
       this.fileService.base64(file).subscribe(result => {
         this.imageBase64 = result;
-        console.warn(this.imageBase64);
+        this.uploadedImage = this.domSanitizer.bypassSecurityTrustUrl('data:image/png;base64, ' + this.imageBase64);
+        console.warn(this.uploadedImage);
       });
     }
   }

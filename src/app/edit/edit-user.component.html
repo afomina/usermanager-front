@@ -1,6 +1,7 @@
 <h3>Edit</h3>
 <div >
   <form [formGroup]="editUserForm" (ngSubmit)="update()">
+    <img [src]="userAvatar" width="100px" /><br>
     <label>First name:
       <input type="text" formControlName="firstName" [(ngModel)]="user.firstName"/>
     </label>
@@ -19,12 +20,14 @@
         <option value="admin">admin</option>
       </select>
     </label>
+
     <div>
       <label for="picked">Avatar:</label>
       <div>
         <input type="file" id="picked" formControlName="avatar" #picked
                (change)="onPicked(picked)"/>
       </div>
+      <img [src]="uploadedImage" >
     </div>
 
     <button type="submit" [disabled]="!editUserForm.valid">
