@@ -1,7 +1,10 @@
 <h3>Edit</h3>
 <div >
+  <div *ngIf="userAvatarUrl">
+    <img [src]="userAvatarUrl" width="100px" /><br>
+    <button (click)="deleteAvatar()">Delete avatar</button>
+  </div>
   <form [formGroup]="editUserForm" (ngSubmit)="update()">
-    <img *ngIf="userAvatarUrl" [src]="userAvatarUrl" width="100px" /><br>
     <label>First name:
       <input type="text" formControlName="firstName" [(ngModel)]="user.firstName"/>
     </label>
@@ -20,7 +23,6 @@
         <option value="admin">admin</option>
       </select>
     </label>
-
     <div>
       <label for="picked">Avatar:</label>
       <div>

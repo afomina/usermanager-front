@@ -30,7 +30,7 @@ body, input[text] {
 a {
   cursor: pointer;
 }
-button {
+button[type=submit] {
   background-color: #eee;
   border: none;
   border-radius: 4px;

@@ -70,4 +70,9 @@ export class EditUserComponent implements OnInit {
       });
     }
   }
+
+  deleteAvatar() {
+    this.user.avatar = null;
+    this.userAvatarUrl= null;
+  }
 }
