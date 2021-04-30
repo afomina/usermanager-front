@@ -22,9 +22,11 @@ export class UsersComponent implements OnInit {
     avatar: new FormControl()
   });
   imageBase64: string;
-  editUser: User;
+  errorMessage: string;
 
-  constructor(private userService: UserService, private fileService: FileService) {}
+  constructor(private userService: UserService,
+              private fileService: FileService,
+              public authService: AuthService) {}
 
   ngOnInit() {
     this.getUsers();
@@ -36,11 +38,20 @@ export class UsersComponent implements OnInit {
   }
 
   add(user: User): void {
-    user.avatar = this.imageBase64;
-    user.password = btoa(user.password);
-    this.userService
-      .createUser(user)
-      .subscribe(user => this.users.push(user));
+    if (user.email == null) {
+      this.errorMessage = "Email is empty";
+    } else if (user.password == null) {
+      this.errorMessage = "Password is empty";
+    } else if (user.role == null) {
+      this.errorMessage = "Role is empty";
+    } else {
+      user.avatar = this.imageBase64;
+      user.password = btoa(user.password);
+      this.userService
+        .createUser(user)
+        .subscribe(user => this.users.push(user),
+          () => this.errorMessage = "Invalid data");
+    }
   }
 
   delete(user: User): void {

@@ -13,15 +13,18 @@ export class AuthComponent {
     email: new FormControl(),
     password: new FormControl()
   });
+  errorMessage: string;
 
   constructor(private authService: AuthService,
               private router: Router) {}
 
   onLogin() {
     this.authService.login(this.loginForm.value, () => {
-      if (this.authService.getAuthToken() != null) {
+      if (this.authService.isAdmin()) {
         this.router.navigateByUrl('/users');
+      } else {
+        this.errorMessage = "Access denied";
       }
-    });
+    }, () => this.errorMessage = "Invalid email or password");
   }
 }

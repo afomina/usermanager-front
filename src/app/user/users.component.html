@@ -1,3 +1,4 @@
+<div *ngIf="authService.isAdmin()">
 <h3>Users</h3>
 <div>
   <form [formGroup]="createUser" (ngSubmit)="onCreate()">
@@ -32,6 +33,9 @@
     </button>
   </form>
 
+  <div *ngIf="errorMessage">
+    {{errorMessage}}
+  </div>
 </div>
 
 <table border="true">
@@ -71,3 +75,7 @@
     </td>
   </tr>
 </table>
+</div>
+<div *ngIf="!authService.isAdmin()">
+  Access denied
+</div>

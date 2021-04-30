@@ -1,5 +1,5 @@
+<div *ngIf="authService.isAdmin()">
 <h3>Edit</h3>
-<div >
   <div *ngIf="userAvatarUrl">
     <img [src]="userAvatarUrl" width="100px" /><br>
     <button (click)="deleteAvatar()">Delete avatar</button>
@@ -36,5 +36,10 @@
       save
     </button>
   </form>
-
+  <div *ngIf="errorMessage">
+    {{errorMessage}}
+  </div>
+</div>
+<div *ngIf="!authService.isAdmin()">
+  Access denied
 </div>
