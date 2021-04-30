@@ -9,13 +9,13 @@ import { UsersComponent } from './user/users.component';
 import { AppRoutingModule } from './app-routing.module';
 
 import {EditUserComponent} from "./edit/edit-user.component";
+import {AuthComponent} from "./auth/auth.component";
 
 @NgModule({
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    // import HttpClientModule after BrowserModule.
     HttpClientModule,
     HttpClientXsrfModule.withOptions({
       cookieName: 'My-Xsrf-Cookie',
@@ -27,6 +27,7 @@ import {EditUserComponent} from "./edit/edit-user.component";
     AppComponent,
     UsersComponent,
     EditUserComponent,
+    AuthComponent
   ],
   providers: [
   ],

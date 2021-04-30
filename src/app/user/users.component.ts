@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup} from '@angular/forms';
 
-import { User } from './user';
-import { UserService } from './user.service';
+import {User} from './user';
+import {UserService} from './user.service';
 import {FileService} from "./file.service";
+import {AuthService} from "../auth/auth.service";
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
-  providers: [UserService, FileService],
+  providers: [UserService, FileService, AuthService],
 })
 export class UsersComponent implements OnInit {
   users: User[];
@@ -31,7 +32,7 @@ export class UsersComponent implements OnInit {
 
   getUsers(): void {
     this.userService.getUsers()
-      .subscribe(response => (this.users = response.data.users));
+      .subscribe(response => this.users = response.data.users);
   }
 
   add(user: User): void {
@@ -57,10 +58,7 @@ export class UsersComponent implements OnInit {
     const file = input.files[0];
 
     if (file) {
-      this.fileService.base64(file).subscribe(result => {
-        this.imageBase64 = result;
-        console.warn(this.imageBase64);
-      });
+      this.fileService.base64(file).subscribe(result => this.imageBase64 = result);
     }
   }
 

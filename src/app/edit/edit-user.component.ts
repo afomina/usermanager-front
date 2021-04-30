@@ -1,16 +1,17 @@
 import {Component, OnInit} from "@angular/core";
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import {ActivatedRoute, ParamMap} from '@angular/router';
 import {FormControl, FormGroup} from "@angular/forms";
 import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
 import {UserService} from "../user/user.service";
 import {User} from "../user/user";
 import {FileService} from "../user/file.service";
 import {switchMap} from "rxjs/operators";
+import {AuthService} from "../auth/auth.service";
 
 @Component({
   selector: 'edit-user',
   templateUrl: './edit-user.component.html',
-  providers: [UserService, FileService],
+  providers: [UserService, FileService, AuthService],
 })
 export class EditUserComponent implements OnInit {
   user: User;
@@ -35,8 +36,8 @@ export class EditUserComponent implements OnInit {
     this.route.paramMap.pipe(
       switchMap((params: ParamMap) =>
       this.userService.getUser(params.get('id')))).subscribe(
-          r => {
-            this.user = r.data.user;
+      response => {
+            this.user = response.data.user;
             if (this.user.avatar != null) {
               this.userAvatarUrl = this.domSanitizer.bypassSecurityTrustUrl(
                 "data:image/png;base64, " + this.user.avatar);
